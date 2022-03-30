@@ -40,7 +40,8 @@ h1 {
   width: 100%;
   height: 2.5rem;
   text-align: center;
-  background-color: #f8f9fa !important;
+  color: white;
+  background-color: #161616 !important;
 }
 
 #contain {

@@ -1,3 +1,3 @@
 <template>
- <p>asd</p>
+ <p>Copyright</p>
 </template>
