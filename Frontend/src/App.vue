@@ -30,6 +30,10 @@ import Footer from "@/components/Footer.vue";
   padding-bottom: 2.5rem;
 }
 
+.white{
+  color: white !important;
+}
+
 h1 {
   text-align: center;
 }
