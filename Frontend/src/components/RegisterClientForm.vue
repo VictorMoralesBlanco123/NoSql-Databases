@@ -63,8 +63,23 @@ let first_name = ref(null);
 let last_name = ref(null);
 let address = ref(null);
 
-function add(){
-    
+function add() {
+    $.ajax({
+    type: "POST",
+    url: "http://localhost:4000/clients/add",
+    data: {
+     first_name = first_name.value,
+     last_name=last_name.value,
+     phone = phone.value,
+     address = address.value,
+    },
+    success: function (data, status) {
+      if (status === "success") {
+        swal("Success!", "Client Registered!", "success");
+        document.querySelector("form").reset();
+      }
+    },
+  });
 }
 </script>
 
