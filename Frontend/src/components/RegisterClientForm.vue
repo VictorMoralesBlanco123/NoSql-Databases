@@ -1,11 +1,12 @@
 <template>
-  <div class="fixMargins">
+  <form class="fixMargins" @submit="add">
     <div class="row">
       <div class="col">
         <input
           type="text"
           class="form-control"
           placeholder="First Name"
+          pattern="[A-aZ-z]+"
           required
         />
       </div>
@@ -14,6 +15,7 @@
           type="text"
           class="form-control"
           placeholder="Last Name"
+          pattern="[A-aZ-z]+"
           required
         />
       </div>
@@ -33,33 +35,36 @@
     <div class="row">
       <div class="col">
         <input
-          type="tel"
+          type="text"
           class="form-control"
-          placeholder="Phone Number"
+          placeholder="Phone Number (Ex.239-239-1231)"
           minlength="12"
           maxlength="12"
           ref="phone"
-          pattern="[0-9\-]"
-          @change="check"
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
           required
         />
       </div>
     </div>
-  </div>
+    <br />
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-primary">Register Client</button>
+      </div>
+    </div>
+  </form>
 </template>
 
 <script setup>
 import { ref } from "vue";
 
 let phone = ref(null);
+let first_name = ref(null);
+let last_name = ref(null);
+let address = ref(null);
 
-function check(e) {
-  if (
-    event.key != "Backspace" &&
-    (phone.value.length === 3 || phone.value.length === 7)
-  ) {
-    phone.value += "-";
-  }
+function add(){
+    
 }
 </script>
 
