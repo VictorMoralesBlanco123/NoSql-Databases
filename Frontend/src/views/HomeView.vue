@@ -2,8 +2,8 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col">
-        <carousel id="carousel" />
-        <h1></h1>
+        <carousel id="carousel" /><br>
+        <h1>Gym Management System</h1>
       </div>
     </div>
   </div>

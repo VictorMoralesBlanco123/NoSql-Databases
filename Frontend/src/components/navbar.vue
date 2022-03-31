@@ -15,9 +15,51 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <RouterLink class="nav-link white" to="#" >Home</RouterLink>
-          <RouterLink class="nav-link white" to="#">Features</RouterLink>
-          <RouterLink class="nav-link white" to="#">Pricing</RouterLink>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle white"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Clients
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><RouterLink class="dropdown-item" to="/addclient">Register New Client</RouterLink></li>
+              <li><RouterLink class="dropdown-item" to="#">View All Clients</RouterLink></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle white"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Instructors
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><RouterLink class="dropdown-item" to="#">Register New Instructor</RouterLink></li>
+              <li><RouterLink class="dropdown-item" to="#">View All Instructors</RouterLink></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle white"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Groups
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><RouterLink class="dropdown-item" to="#">Create A New Group</RouterLink></li>
+              <li><RouterLink class="dropdown-item" to="#">View All Groups</RouterLink></li>
+            </ul>
+          </li>
         </div>
       </div>
     </div>
@@ -28,6 +70,4 @@
 </script>
 
 <style scoped>
-
-
 </style>
