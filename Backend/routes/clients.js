@@ -4,8 +4,18 @@ var mongodb = require('mongodb');
 var mongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost:27017/gym';
 
-router.get('/add', function(req, res) {
-    
+router.post('/add', function (req, res) {
+    let form = req.body;
+    console.log(form)
+    mongoClient.connect(url, { useUnifiedTopology: true }, (err, db) => {
+        if (err) throw err;
+        let dbo = db.db('gym');
+        dbo.collection('clients').insertOne(form, (err, result) => {
+            if (err) throw err;
+            db.close();
+            res.end();
+        });
+    });
 });
 
 module.exports = router;
