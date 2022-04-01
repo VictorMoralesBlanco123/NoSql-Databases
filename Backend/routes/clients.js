@@ -4,7 +4,8 @@ var mongodb = require('mongodb');
 var mongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost:27017/gym';
 
-router.get('/', function(req, res, next) {
+router.get('/add', function(req, res) {
+    
 });
 
 module.exports = router;
