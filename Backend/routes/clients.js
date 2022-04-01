@@ -30,4 +30,20 @@ router.get('/list', function (req, res) {
     });
 })
 
+
+router.get('/search/:param', (req, res) => {
+    let param = req.params.param;
+    mongoClient.connect(url, { useUnifiedTopology: true }, (err, db) => {
+        if (err) throw err;
+        let dbo = db.db('gym');
+        let query = { name: new RegExp(param, 'i') };
+        dbo.collection('clients').find(query).toArray((err, result) => {
+            if (err) throw err;
+            db.close();
+            res.send(JSON.stringify(result));
+            res.end();
+        });
+    });
+});
+
 module.exports = router;

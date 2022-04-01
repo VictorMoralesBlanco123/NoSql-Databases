@@ -1,10 +1,10 @@
 <template>
   <div class="container-fluid fix">
-    <form class="d-flex" @submit="search">
+    <form class="d-flex" @submit.prevent="searchClient">
       <input
         class="form-control me-2"
-        type="search"
-        placeholder="Search"
+        type="text"
+        placeholder="Search Client"
         aria-label="Search"
         v-model="search"
       />
@@ -15,8 +15,7 @@
       <table class="table">
         <thead class="table-dark">
           <tr>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
+            <th scope="col">Client Name</th>
             <th scope="col">Address</th>
             <th scope="col">Phone</th>
             <th scope="col" style="width: 200px">Action</th>
@@ -24,8 +23,7 @@
         </thead>
         <tbody>
           <tr v-for="(client, i) in clients" :key="i">
-            <td>{{ client.first_name }}</td>
-            <td>{{ client.last_name }}</td>
+            <td>{{ client.name }}</td>
             <td>{{ client.address }}</td>
             <td>{{ client.phone }}</td>
             <td>
@@ -55,12 +53,19 @@ let clients = ref(null);
 let search = ref(null);
 
 onMounted(async () => {
-  let res = await fetch("http://localhost:4000/clients/list");
-  clients.value = await res.json();
+  fillArray();
 });
 
-function search(){
-    
+async function fillArray() {
+  let res = await fetch("http://localhost:4000/clients/list");
+  clients.value = await res.json();
+}
+
+async function searchClient() {
+  let res = await fetch(
+    `http://localhost:4000/clients/search/${search.value}`
+  );
+  clients.value = await res.json();
 }
 </script>
 

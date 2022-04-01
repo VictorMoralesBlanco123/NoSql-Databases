@@ -1,9 +1,9 @@
 <template>
-  <ClientCards />
+  <ClientsList />
 </template>
 
 <script setup>
-import ClientCards from "@/components/ClientCards.vue";
+import ClientsList from "@/components/ClientsList.vue";
 </script>
 
 <style scoped>

@@ -78,13 +78,12 @@ function add() {
     type: "POST",
     url: "http://localhost:4000/clients/add",
     data: JSON.stringify({
-      first_name: first_name.value,
-      last_name: last_name.value,
+      name: first_name.value + " " + last_name.value,
       phone: phone.value,
       address: address.value,
     }),
-    headers:{
-      'content-type': 'application/json'
+    headers: {
+      "content-type": "application/json",
     },
     success: function (data, status) {
       if (status === "success") {
