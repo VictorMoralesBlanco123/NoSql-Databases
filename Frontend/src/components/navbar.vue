@@ -27,7 +27,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><RouterLink class="dropdown-item" to="/addclient">Register New Client</RouterLink></li>
-              <li><RouterLink class="dropdown-item" to="#">View All Clients</RouterLink></li>
+              <li><RouterLink class="dropdown-item" to="/listclients">View All Clients</RouterLink></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
