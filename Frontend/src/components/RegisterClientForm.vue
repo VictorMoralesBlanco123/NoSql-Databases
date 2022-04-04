@@ -78,7 +78,8 @@ function add() {
     type: "POST",
     url: "http://localhost:4000/clients/add",
     data: JSON.stringify({
-      name: first_name.value + " " + last_name.value,
+      first_name: first_name.value,
+      last_name: last_name.value,
       phone: phone.value,
       address: address.value,
     }),

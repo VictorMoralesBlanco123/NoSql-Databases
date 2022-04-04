@@ -15,7 +15,8 @@
       <table class="table">
         <thead class="table-dark">
           <tr>
-            <th scope="col">Client Name</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
             <th scope="col">Address</th>
             <th scope="col">Phone</th>
             <th scope="col" style="width: 200px">Action</th>
@@ -23,25 +24,121 @@
         </thead>
         <tbody>
           <tr v-for="(client, i) in clients" :key="i">
-            <td>{{ client.name }}</td>
+            <td>{{ client.first_name }}</td>
+            <td>{{ client.last_name }}</td>
             <td>{{ client.address }}</td>
             <td>{{ client.phone }}</td>
             <td>
               <button
                 class="btn btn-success me-2"
                 data-toggle="modal"
-                v-on:click="Edit(client._id)"
-                data-target="#BookModal"
+                @click="selectClient(client)"
+                data-target="#ClientModal"
               >
                 Edit
               </button>
-              <button class="btn btn-warning" v-on:click="Delete(client._id)">
+              <button
+                class="btn btn-warning"
+                @click.prevent="remove(client._id)"
+              >
                 Delete
               </button>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div
+      class="modal fade"
+      id="ClientModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <form @submit="save">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Edit Client Information
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- <div class="row">
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="First Name"
+                    pattern="[A-aZ-z]+"
+                    v-model="selected.value.first_name"
+                    required
+                  />
+                </div>
+
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Last Name"
+                    pattern="[A-aZ-z]+"
+                    v-model="selected.value.last_name"
+                    required
+                  />
+                </div>
+              </div>
+
+              <br />
+
+              <div class="row">
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Address"
+                    v-model="selected.value.address"
+                    required
+                  />
+                </div>
+              </div>
+
+              <br />
+
+              <div class="row">
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Phone Number (Ex.239-239-1231)"
+                    minlength="12"
+                    maxlength="12"
+                    v-model="selected.value.phone"
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    required
+                  />
+                </div>
+              </div> -->
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </template>
@@ -51,6 +148,7 @@ import { ref, onMounted } from "vue";
 
 let clients = ref(null);
 let search = ref(null);
+let selected = ref(null);
 
 onMounted(async () => {
   fillArray();
@@ -72,7 +170,11 @@ async function searchClient() {
   }
 }
 
-function Delete(id) {
+function selectClient(client) {
+  selected.value = client;
+}
+
+function remove(id) {
   $.ajax({
     type: "DELETE",
     url: `http://localhost:4000/clients/delete/${id}`,
@@ -83,6 +185,7 @@ function Delete(id) {
       }
     },
   });
+  fillArray();
 }
 </script>
 
