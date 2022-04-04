@@ -62,10 +62,14 @@ async function fillArray() {
 }
 
 async function searchClient() {
-  let res = await fetch(
-    `http://localhost:4000/clients/search/${search.value}`
-  );
-  clients.value = await res.json();
+  if (search.value == "") {
+    fillArray();
+  } else {
+    let res = await fetch(
+      `http://localhost:4000/clients/search/${search.value}`
+    );
+    clients.value = await res.json();
+  }
 }
 </script>
 
