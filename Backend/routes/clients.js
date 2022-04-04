@@ -46,6 +46,21 @@ router.get('/search/:param', (req, res) => {
     });
 });
 
+router.put('/update/:id', function (req, res) {
+    let id = req.params.id;
+    let form = req.body;
+    mongoClient.connect(url, { useUnifiedTopology: true }, (err, db) => {
+        if (err) throw err;
+        let dbo = db.db('gym');
+        let query = { _id: new mongodb.ObjectId(id) };
+        let newValues = { $set: form };
+        dbo.collection('clients').updateOne(query, newValues, (err, result) => {
+            if (err) throw err;
+            db.close();
+            res.end();
+        });
+    });
+});
 
 router.delete('/delete/:id', function (req, res) {
     mongoClient.connect(url, {

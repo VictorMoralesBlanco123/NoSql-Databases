@@ -31,9 +31,10 @@
             <td>
               <button
                 class="btn btn-success me-2"
-                data-toggle="modal"
+                type="button"
                 @click="selectClient(client)"
-                data-target="#ClientModal"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
               >
                 Edit
               </button>
@@ -51,12 +52,14 @@
 
     <div
       class="modal fade"
-      id="ClientModal"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="staticBackdropLabel"
       aria-hidden="true"
     >
-      <form @submit="save">
+      <form @submit.prevent="save">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -180,6 +183,26 @@ function selectClient(client) {
   last_name.value = client.last_name;
   address.value = client.address;
   id.value = clients._id;
+}
+
+function save() {
+  $.ajax({
+    type: "PUT",
+    url: `http://localhost:4000/clients/update/${id.value}`,
+    data: JSON.stringify({
+      _id : id.value,
+      first_name: first_name.value,
+      last_name: last_name.value,
+      address:address.value,
+      phone:phone.value
+    }),
+    success: function(data,status){
+      if (status==="success"){
+        swal("Success!", "Client Updated!", "success");
+        fillArray();
+      }
+    }
+  });
 }
 
 function remove(id) {
