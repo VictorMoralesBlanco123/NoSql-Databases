@@ -71,14 +71,14 @@
               ></button>
             </div>
             <div class="modal-body">
-              <!-- <div class="row">
+              <div class="row">
                 <div class="col">
                   <input
                     type="text"
                     class="form-control"
                     placeholder="First Name"
                     pattern="[A-aZ-z]+"
-                    v-model="selected.value.first_name"
+                    v-model="first_name"
                     required
                   />
                 </div>
@@ -89,7 +89,7 @@
                     class="form-control"
                     placeholder="Last Name"
                     pattern="[A-aZ-z]+"
-                    v-model="selected.value.last_name"
+                    v-model="last_name"
                     required
                   />
                 </div>
@@ -103,7 +103,7 @@
                     type="text"
                     class="form-control"
                     placeholder="Address"
-                    v-model="selected.value.address"
+                    v-model="address"
                     required
                   />
                 </div>
@@ -119,12 +119,12 @@
                     placeholder="Phone Number (Ex.239-239-1231)"
                     minlength="12"
                     maxlength="12"
-                    v-model="selected.value.phone"
+                    v-model="phone"
                     pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     required
                   />
                 </div>
-              </div> -->
+              </div>
             </div>
             <div class="modal-footer">
               <button
@@ -148,7 +148,11 @@ import { ref, onMounted } from "vue";
 
 let clients = ref(null);
 let search = ref(null);
-let selected = ref(null);
+let id = ref(null);
+let phone = ref(null);
+let first_name = ref(null);
+let last_name = ref(null);
+let address = ref(null);
 
 onMounted(async () => {
   fillArray();
@@ -171,7 +175,11 @@ async function searchClient() {
 }
 
 function selectClient(client) {
-  selected.value = client;
+  phone.value = client.phone;
+  first_name.value = client.first_name;
+  last_name.value = client.last_name;
+  address.value = client.address;
+  id.value = clients._id;
 }
 
 function remove(id) {
