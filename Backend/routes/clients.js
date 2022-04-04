@@ -46,4 +46,19 @@ router.get('/search/:param', (req, res) => {
     });
 });
 
+router.delete('/delete/:id', (req, res) => {
+    let id = req.params.id;
+    mongoClient.connect(url, { useUnifiedTopology: true }, (err, db) => {
+        if (err) throw err;
+        let dbo = db.db('gym');
+        let query = { _id: new mongodb.ObjectId(id) };
+        console.log(query)
+        dbo.collection('customers').deleteOne(query, (err, result) => {
+            if (err) throw err;
+            db.close();
+            res.end();
+        });
+    });
+});
+
 module.exports = router;

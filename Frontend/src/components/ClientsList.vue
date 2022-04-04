@@ -71,6 +71,19 @@ async function searchClient() {
     clients.value = await res.json();
   }
 }
+
+function Delete(id) {
+  $.ajax({
+    type: "DELETE",
+    url: `http://localhost:4000/clients/delete/${id}`,
+    success: function (data, status) {
+      if (status === "success") {
+        swal("Success!", "Client Deleted!", "success");
+        fillArray();
+      }
+    },
+  });
+}
 </script>
 
 <style scoped>
