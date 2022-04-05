@@ -59,7 +59,23 @@
 
     <div class="row">
       <div class="col">
-        <button type="submit" class="btn btn-primary">Register Client</button>
+        <textarea
+          class="form-control"
+          placeholder="Background and Specialities"
+          rows="5"
+          v-model="background"
+          required
+        ></textarea>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+      <div class="col">
+        <button type="submit" class="btn btn-primary">
+          Register Instructor
+        </button>
       </div>
     </div>
   </form>
@@ -68,10 +84,11 @@
 <script setup>
 import { ref } from "vue";
 
-let phone = ref(null);
 let first_name = ref(null);
 let last_name = ref(null);
 let address = ref(null);
+let phone = ref(null);
+let background = ref(null);
 
 function add() {
   $.ajax({
@@ -82,6 +99,7 @@ function add() {
       last_name: last_name.value,
       phone: phone.value,
       address: address.value,
+      background: background.value
     }),
     headers: {
       "content-type": "application/json",
