@@ -56,7 +56,7 @@
               Groups
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><RouterLink class="dropdown-item" to="#">Create A New Group</RouterLink></li>
+              <li><RouterLink class="dropdown-item" to="/addgroup">Create A New Group</RouterLink></li>
               <li><RouterLink class="dropdown-item" to="#">View All Groups</RouterLink></li>
             </ul>
           </li>
