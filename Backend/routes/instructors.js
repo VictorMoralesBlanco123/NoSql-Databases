@@ -37,7 +37,20 @@ router.get('/search/:param', (req, res) => {
     mongoClient.connect(url, { useUnifiedTopology: true }, (err, db) => {
         if (err) throw err;
         let dbo = db.db('gym');
-        let query = { name: new RegExp(param, 'i') };
+        let query = {
+            $or: [{
+                first_name: new RegExp(param, 'i')
+            },
+            {
+                last_name: new RegExp(param, 'i')
+            },
+            {
+                phone: new RegExp(param, 'i')
+            },
+            {
+                address: new RegExp(param, 'i')
+            }]
+        };
         dbo.collection('instructors').find(query).toArray((err, result) => {
             if (err) throw err;
             db.close();

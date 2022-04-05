@@ -20,7 +20,9 @@ import Footer from "@/components/Footer.vue";
 
 <style>
 @import "@/assets/base.css";
-
+.table {
+  text-align: center;
+}
 .page-container {
   position: relative;
   min-height: 100vh;

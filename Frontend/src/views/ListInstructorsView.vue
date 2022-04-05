@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import List from "@/components/ClientsList.vue";
+import List from "@/components/InstructorsList.vue";
 </script>
 
 <style scoped>
