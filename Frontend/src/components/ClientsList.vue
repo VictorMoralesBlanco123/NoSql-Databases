@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid fix">
+    <h1>Clients</h1>
     <form class="d-flex" @submit.prevent="searchClient">
       <input
         class="form-control me-2"

@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid fix">
-    <h1>List Instructors</h1>
+    <h1>Instructors</h1>
     <form class="d-flex" @submit.prevent="searchInstructor">
       <input
         class="form-control me-2"
@@ -35,7 +35,7 @@
               <button
                 class="btn btn-success me-2"
                 type="button"
-                @click.prevent="searchInstructor(instructor)"
+                @click.prevent="selectInstructor(instructor)"
                 data-bs-toggle="modal"
                 data-bs-target="#staticBackdrop"
               >
