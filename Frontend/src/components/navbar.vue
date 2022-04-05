@@ -41,7 +41,7 @@
               Instructors
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><RouterLink class="dropdown-item" to="#">Register New Instructor</RouterLink></li>
+              <li><RouterLink class="dropdown-item" to="/addinstructor">Register New Instructor</RouterLink></li>
               <li><RouterLink class="dropdown-item" to="#">View All Instructors</RouterLink></li>
             </ul>
           </li>

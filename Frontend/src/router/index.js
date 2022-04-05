@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import AddClient from '@/views/AddClientView.vue'
 import ListClient from '@/views/ListClientsView.vue'
+import AddInstructor from '@/views/AddInstructorView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/listclients',
       name: 'List Clients',
       component: ListClient
+    },
+    {
+      path: '/addinstructor',
+      name: 'Add Instructor',
+      component: AddInstructor
     }
   ]
 })
