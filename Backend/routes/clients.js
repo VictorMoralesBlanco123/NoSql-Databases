@@ -49,7 +49,6 @@ router.get('/search/:param', (req, res) => {
 router.put('/update/:updateid', function (req, res) {
     let updateid = req.params.updateid;
     let form = req.body;
-    console.log(form)
     mongoClient.connect(url, { useUnifiedTopology: true }, (err, db) => {
         if (err) throw err;
         let dbo = db.db('gym');

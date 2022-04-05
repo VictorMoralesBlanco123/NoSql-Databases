@@ -38,10 +38,7 @@
               >
                 Edit
               </button>
-              <button
-                class="btn btn-warning"
-                @click.prevent="remove(client._id)"
-              >
+              <button class="btn btn-warning" @click="remove(client._id)">
                 Delete
               </button>
             </td>
@@ -158,7 +155,7 @@ let first_name = ref(null);
 let last_name = ref(null);
 let address = ref(null);
 
-onMounted(async () => {
+onMounted(() => {
   fillArray();
 });
 
@@ -191,20 +188,22 @@ function save() {
     type: "PUT",
     url: `http://localhost:4000/clients/update/${_id.value}`,
     data: JSON.stringify({
-      _id: _id.value,
       first_name: first_name.value,
       last_name: last_name.value,
       address: address.value,
       phone: phone.value,
     }),
+    headers: {
+      "content-type": "application/json",
+    },
     success: function (data, status) {
       if (status === "success") {
         swal("Success!", "Client Updated!", "success");
+        fillArray();
       }
     },
   });
   document.getElementById("close").click();
-  fillArray();
 }
 
 function remove(id) {
@@ -214,10 +213,10 @@ function remove(id) {
     success: function (data, status) {
       if (status === "success") {
         swal("Success!", "Client Deleted!", "success");
+        fillArray();
       }
     },
   });
-  fillArray();
 }
 </script>
 
