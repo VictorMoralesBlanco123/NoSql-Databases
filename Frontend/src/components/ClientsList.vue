@@ -32,7 +32,7 @@
               <button
                 class="btn btn-success me-2"
                 type="button"
-                @click="selectClient(client)"
+                @click.prevent="selectClient(client)"
                 data-bs-toggle="modal"
                 data-bs-target="#staticBackdrop"
               >
@@ -151,7 +151,7 @@ import { ref, onMounted } from "vue";
 
 let clients = ref(null);
 let search = ref(null);
-let id = ref(null);
+let _id = ref(null);
 let phone = ref(null);
 let first_name = ref(null);
 let last_name = ref(null);
@@ -182,7 +182,8 @@ function selectClient(client) {
   first_name.value = client.first_name;
   last_name.value = client.last_name;
   address.value = client.address;
-  id.value = clients._id;
+  _id.value = clients._id;
+  console.log(client)
 }
 
 function save() {
