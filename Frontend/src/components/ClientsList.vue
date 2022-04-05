@@ -134,6 +134,7 @@
                 type="button"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
+                id="close"
               >
                 Close
               </button>
@@ -182,28 +183,28 @@ function selectClient(client) {
   first_name.value = client.first_name;
   last_name.value = client.last_name;
   address.value = client.address;
-  _id.value = clients._id;
-  console.log(client)
+  _id.value = client._id;
 }
 
 function save() {
   $.ajax({
     type: "PUT",
-    url: `http://localhost:4000/clients/update/${id.value}`,
+    url: `http://localhost:4000/clients/update/${_id.value}`,
     data: JSON.stringify({
-      _id : id.value,
+      _id: _id.value,
       first_name: first_name.value,
       last_name: last_name.value,
-      address:address.value,
-      phone:phone.value
+      address: address.value,
+      phone: phone.value,
     }),
-    success: function(data,status){
-      if (status==="success"){
+    success: function (data, status) {
+      if (status === "success") {
         swal("Success!", "Client Updated!", "success");
-        fillArray();
       }
-    }
+    },
   });
+  document.getElementById("close").click();
+  fillArray();
 }
 
 function remove(id) {
@@ -213,7 +214,6 @@ function remove(id) {
     success: function (data, status) {
       if (status === "success") {
         swal("Success!", "Client Deleted!", "success");
-        fillArray();
       }
     },
   });
