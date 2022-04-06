@@ -57,18 +57,17 @@
 
     <br />
 
-    <div class="row" id="daySelecor">
+    <div class="row" id="daySelector">
       <div class="col">
         <div class="form-check">
           <input
             class="form-check-input"
             type="checkbox"
-            value=""
-            id="flexCheckDefault"
+            value="Monday"
+            id="monday"
           />
-          <label class="form-check-label" for="flexCheckDefault">
-            Default checkbox
-          </label>
+
+          <label class="form-check-label" for="monday"> Monday </label>
         </div>
       </div>
       <div class="col">
@@ -76,12 +75,11 @@
           <input
             class="form-check-input"
             type="checkbox"
-            value=""
-            id="flexCheckDefault"
+            value="Tuesday"
+            id="tuesday"
           />
-          <label class="form-check-label" for="flexCheckDefault">
-            Default checkbox
-          </label>
+
+          <label class="form-check-label" for="tuesday"> Tuesday </label>
         </div>
       </div>
       <div class="col">
@@ -89,12 +87,11 @@
           <input
             class="form-check-input"
             type="checkbox"
-            value=""
-            id="flexCheckDefault"
+            value="Wednesday"
+            id="wednesday"
           />
-          <label class="form-check-label" for="flexCheckDefault">
-            Default checkbox
-          </label>
+
+          <label class="form-check-label" for="wednesday"> Wednesday </label>
         </div>
       </div>
       <div class="col">
@@ -102,12 +99,11 @@
           <input
             class="form-check-input"
             type="checkbox"
-            value=""
-            id="flexCheckDefault"
+            value="Thursday"
+            id="thursday"
           />
-          <label class="form-check-label" for="flexCheckDefault">
-            Default checkbox
-          </label>
+
+          <label class="form-check-label" for="thursday"> Thursday </label>
         </div>
       </div>
       <div class="col">
@@ -115,12 +111,11 @@
           <input
             class="form-check-input"
             type="checkbox"
-            value=""
-            id="flexCheckDefault"
+            value="Friday"
+            id="friday"
           />
-          <label class="form-check-label" for="flexCheckDefault">
-            Default checkbox
-          </label>
+
+          <label class="form-check-label" for="friday"> Friday </label>
         </div>
       </div>
       <div class="col">
@@ -128,12 +123,11 @@
           <input
             class="form-check-input"
             type="checkbox"
-            value=""
-            id="flexCheckDefault"
+            value="Saturday"
+            id="saturday"
           />
-          <label class="form-check-label" for="flexCheckDefault">
-            Default checkbox
-          </label>
+
+          <label class="form-check-label" for="saturday"> Saturday </label>
         </div>
       </div>
       <div class="col">
@@ -141,12 +135,11 @@
           <input
             class="form-check-input"
             type="checkbox"
-            value=""
-            id="flexCheckDefault"
+            value="Sunday"
+            id="sunday"
           />
-          <label class="form-check-label" for="flexCheckDefault">
-            Default checkbox
-          </label>
+
+          <label class="form-check-label" for="sunday"> Sunday </label>
         </div>
       </div>
     </div>
@@ -234,7 +227,13 @@ async function fillArray() {
   margin-left: auto;
 }
 
-.daySelecor{
-  
+#daySelector {
+  text-align: center;
+  width: 70%;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: rgb(241, 241, 241);
+  padding: 1%;
+  border-radius: 10px;
 }
 </style>
