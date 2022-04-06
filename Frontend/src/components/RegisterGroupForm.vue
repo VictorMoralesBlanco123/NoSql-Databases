@@ -7,6 +7,7 @@
           class="form-control"
           v-model="name"
           placeholder="Group Name"
+          required
         />
       </div>
     </div>
@@ -15,7 +16,7 @@
 
     <div class="row fixMargins">
       <div class="col">
-        <select class="form-select" id="instructor" required>
+        <select class="form-select" @change="select" id="instructor" required>
           <option selected value="">Select Instructor</option>
           <option
             v-for="(instructor, i) in instructors"
@@ -32,26 +33,12 @@
 
     <div class="row fixMargins">
       <div class="col">
-        <label>Start Date</label>
-        <input
-          type="date"
-          @change="checkDate"
-          v-model="start_date"
-          class="form-control"
-          required
-        />
+        <label>Start Time</label>
+        <input type="time" v-model="start_time" class="form-control" required />
       </div>
       <div class="col">
-        <label>End Date</label>
-        <input
-          type="date"
-          @change="checkDate"
-          v-model="end_date"
-          class="form-control"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          title="Groups must be at least one month long"
-        />
+        <label>End Time</label>
+        <input type="time" v-model="end_time" class="form-control" />
       </div>
     </div>
 
@@ -159,40 +146,17 @@ import { ref, onMounted } from "vue";
 
 let name = ref(null);
 let instructors = ref(null);
-let start_date = ref(null);
-let end_date = ref(null);
-
-var today = new Date();
-var dd = String(today.getDate()).padStart(2, "0");
-var mm = String(today.getMonth() + 1).padStart(2, "0");
-var yyyy = today.getFullYear();
-
-today = yyyy + "-" + mm + "-" + dd;
+let start_time = ref(null);
+let end_time = ref(null);
+let instructor = ref(null);
+let schedule = ref([]);
 
 onMounted(() => {
   fillArray();
-  checkDate();
 });
 
-async function checkDate() {
-  today = yyyy + "-" + mm + "-" + dd;
-  if (start_date.value == "" || new Date(start_date.value) < new Date(today)) {
-    start_date.value = today;
-  }
-  if (
-    end_date.value == "" ||
-    new Date(end_date.value) < new Date(start_date.value)
-  ) {
-    let x = new Date();
-    let day = String(x.getDate()).padStart(2, "0");
-    let month = String(x.getMonth() + 2).padStart(2, "0");
-    let year = x.getFullYear();
-    x = year + "-" + month + "-" + day;
-    end_date.value = x;
-  }
-}
-
 function add() {
+  checkDays();
   $.ajax({
     type: "POST",
     url: "http://localhost:4000/groups/add",
@@ -212,6 +176,16 @@ function add() {
       }
     },
   });
+}
+
+function checkDays() {
+  if(document.getElementById("monday").checked == true){
+
+  }
+}
+
+function select() {
+  instructor.value = document.getElementById("instructor").value;
 }
 
 async function fillArray() {
