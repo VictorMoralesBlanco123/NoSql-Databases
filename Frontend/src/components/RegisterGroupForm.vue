@@ -21,7 +21,7 @@
           <option
             v-for="(instructor, i) in instructors"
             :key="i"
-            :value="instructor._id"
+            :value="[instructor.first_name + ' ' + instructor.last_name, instructor._id]"
           >
             {{ instructor.first_name + " " + instructor.last_name }}
           </option>
@@ -177,7 +177,7 @@ function add() {
   if (document.getElementById("sunday").checked == true) {
     schedule.value.push("Sunday");
   }
-  
+
   if (schedule.value.length == 0) {
     return;
   }
