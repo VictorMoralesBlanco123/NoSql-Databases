@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="add">
+  <form @submit="add">
     <div class="row fixMargins">
       <div class="col">
         <input
@@ -38,7 +38,7 @@
       </div>
       <div class="col">
         <label>End Time</label>
-        <input type="time" v-model="end_time" class="form-control" />
+        <input type="time" v-model="end_time" class="form-control" required />
       </div>
     </div>
 
@@ -143,44 +143,65 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+let instructors = ref(null);
 
 let name = ref(null);
-let instructors = ref(null);
 let start_time = ref(null);
 let end_time = ref(null);
 let instructor = ref(null);
-let schedule = ref([]);
 
 onMounted(() => {
   fillArray();
 });
 
 function add() {
-  checkDays();
-  $.ajax({
-    type: "POST",
-    url: "http://localhost:4000/groups/add",
-    data: JSON.stringify({
-      first_name: first_name.value,
-      last_name: last_name.value,
-      phone: phone.value,
-      address: address.value,
-    }),
-    headers: {
-      "content-type": "application/json",
-    },
-    success: function (data, status) {
-      if (status === "success") {
-        swal("Success!", "Client Registered!", "success");
-        document.querySelector("form").reset();
-      }
-    },
-  });
-}
+  let days = [];
+  if (document.getElementById("monday").checked == true) {
+    days.push("Monday");
+  }
+  if (document.getElementById("tuesday").checked == true) {
+    days.push("Tuesday");
+  }
+  if (document.getElementById("wednesday").checked == true) {
+    days.push("Wednesday");
+  }
+  if (document.getElementById("thursday").checked == true) {
+    days.push("Thursday");
+  }
+  if (document.getElementById("friday").checked == true) {
+    days.push("Friday");
+  }
+  if (document.getElementById("saturday").checked == true) {
+    days.push("Saturday");
+  }
+  if (document.getElementById("sunday").checked == true) {
+    days.push("Sunday");
+  }
 
-function checkDays() {
-  if(document.getElementById("monday").checked == true){
-
+  if (days === []) {
+    console.log(days);
+    return;
+  } else {
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:4000/groups/add",
+      data: JSON.stringify({
+        name: name.value,
+        instructor: instructor.value,
+        start_time: start_time.value,
+        end_time: end_time.value,
+        schedule: days,
+      }),
+      headers: {
+        "content-type": "application/json",
+      },
+      success: function (data, status) {
+        if (status === "success") {
+          swal("Success!", "Client Registered!", "success");
+          document.querySelector("form").reset();
+        }
+      },
+    });
   }
 }
 
