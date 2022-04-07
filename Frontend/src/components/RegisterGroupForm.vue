@@ -1,5 +1,5 @@
 <template>
-  <form @submit="add">
+  <form @submit.prevent="add">
     <div class="row fixMargins">
       <div class="col">
         <input
@@ -149,60 +149,58 @@ let name = ref(null);
 let start_time = ref(null);
 let end_time = ref(null);
 let instructor = ref(null);
+let schedule = ref([]);
 
 onMounted(() => {
   fillArray();
 });
 
 function add() {
-  let days = [];
   if (document.getElementById("monday").checked == true) {
-    days.push("Monday");
+    schedule.value.push("Monday");
   }
   if (document.getElementById("tuesday").checked == true) {
-    days.push("Tuesday");
+    schedule.value.push("Tuesday");
   }
   if (document.getElementById("wednesday").checked == true) {
-    days.push("Wednesday");
+    schedule.value.push("Wednesday");
   }
   if (document.getElementById("thursday").checked == true) {
-    days.push("Thursday");
+    schedule.value.push("Thursday");
   }
   if (document.getElementById("friday").checked == true) {
-    days.push("Friday");
+    schedule.value.push("Friday");
   }
   if (document.getElementById("saturday").checked == true) {
-    days.push("Saturday");
+    schedule.value.push("Saturday");
   }
   if (document.getElementById("sunday").checked == true) {
-    days.push("Sunday");
+    schedule.value.push("Sunday");
   }
 
-  if (days === []) {
-    console.log(days);
+  if (schedule.value != []) {
     return;
-  } else {
-    $.ajax({
-      type: "POST",
-      url: "http://localhost:4000/groups/add",
-      data: JSON.stringify({
-        name: name.value,
-        instructor: instructor.value,
-        start_time: start_time.value,
-        end_time: end_time.value,
-        schedule: days,
-      }),
-      headers: {
-        "content-type": "application/json",
-      },
-      success: function (data, status) {
-        if (status === "success") {
-          swal("Success!", "Client Registered!", "success");
-          document.querySelector("form").reset();
-        }
-      },
-    });
   }
+  $.ajax({
+    type: "POST",
+    url: "http://localhost:4000/groups/add",
+    data: JSON.stringify({
+      name: name.value,
+      instructor: instructor.value,
+      start_time: start_time.value,
+      end_time: end_time.value,
+      schedule: schedule.value,
+    }),
+    headers: {
+      "content-type": "application/json",
+    },
+    success: function (data, status) {
+      if (status === "success") {
+        swal("Success!", "Client Registered!", "success");
+        document.querySelector("form").reset();
+      }
+    },
+  });
 }
 
 function select() {
