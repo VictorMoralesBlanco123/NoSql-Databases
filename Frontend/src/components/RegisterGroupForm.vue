@@ -177,8 +177,8 @@ function add() {
   if (document.getElementById("sunday").checked == true) {
     schedule.value.push("Sunday");
   }
-
-  if (schedule.value != []) {
+  
+  if (schedule.value.length == 0) {
     return;
   }
   $.ajax({
