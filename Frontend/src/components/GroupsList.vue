@@ -22,16 +22,18 @@
             <button
               class="btn btn-primary m-2"
               data-toggle="modal"
-              @click="edit(group)"
-              data-target="#BookModal"
+              @click="setUpJoin(group._id, group.name)"
+              data-bs-toggle="modal"
+              data-bs-target="#editGroup"
             >
               Join Group
             </button>
             <button
               class="btn btn-success m-2"
-              data-toggle="modal"
-              @click="edit(group)"
-              data-target="#editGroup"
+              type="button"
+              @click.prevent="setUpEdit(group)"
+              data-bs-toggle="modal"
+              data-bs-target="#editGroup"
             >
               Edit Group
             </button>
@@ -42,7 +44,195 @@
         </div>
       </div>
     </div>
-    <Edit />
+    <div
+      class="modal fade"
+      id="editGroup"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row fixMargins">
+              <div class="col">
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="name"
+                  placeholder="Group Name"
+                  required
+                />
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row fixMargins">
+              <div class="col">
+                <select
+                  class="form-select"
+                  @change="select"
+                  id="instructor"
+                  required
+                >
+                  <option selected value="">Select Instructor</option>
+                  <option
+                    v-for="(instructor, i) in instructors"
+                    :key="i"
+                    :value="[
+                      instructor.first_name + ' ' + instructor.last_name,
+                      instructor._id,
+                    ]"
+                  >
+                    {{ instructor.first_name + " " + instructor.last_name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row fixMargins">
+              <div class="col">
+                <label>Start Time</label>
+                <input
+                  type="time"
+                  v-model="start_time"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="col">
+                <label>End Time</label>
+                <input
+                  type="time"
+                  v-model="end_time"
+                  class="form-control"
+                  required
+                />
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row" id="daySelector">
+              <div class="col">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="Monday"
+                    id="monday"
+                  />
+
+                  <label class="form-check-label" for="monday"> Monday </label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="Tuesday"
+                    id="tuesday"
+                  />
+
+                  <label class="form-check-label" for="tuesday">
+                    Tuesday
+                  </label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="Wednesday"
+                    id="wednesday"
+                  />
+
+                  <label class="form-check-label" for="wednesday">
+                    Wednesday
+                  </label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="Thursday"
+                    id="thursday"
+                  />
+
+                  <label class="form-check-label" for="thursday">
+                    Thursday
+                  </label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="Friday"
+                    id="friday"
+                  />
+
+                  <label class="form-check-label" for="friday"> Friday </label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="Saturday"
+                    id="saturday"
+                  />
+
+                  <label class="form-check-label" for="saturday">
+                    Saturday
+                  </label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="Sunday"
+                    id="sunday"
+                  />
+
+                  <label class="form-check-label" for="sunday"> Sunday </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -51,12 +241,24 @@ import { ref, onMounted } from "vue";
 import Edit from "@/components/EditGroupModal.vue";
 
 let groups = ref(null);
+let instructors = ref(null);
+
+let name = ref(null);
+let start_time = ref(null);
+let end_time = ref(null);
+let instructor = ref(null);
+let schedule = ref([]);
 
 onMounted(() => {
   fillArray();
 });
 
-function edit() {}
+function setUpEdit(group) {
+  name.value = group.name;
+  start_time.value = group.start_time;
+  end_time.value = group.end_time;
+  instructor.value = group.instructor;
+}
 
 async function remove(id) {
   $.ajax({
@@ -81,8 +283,19 @@ function toRegularTime(time) {
 async function fillArray() {
   let res = await fetch("http://localhost:4000/groups/list");
   groups.value = await res.json();
+  let res2 = await fetch("http://localhost:4000/instructors/list");
+  instructors.value = await res2.json();
 }
 </script>
 
 <style scoped>
+#daySelector {
+  text-align: center;
+  width: 70%;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: rgb(241, 241, 241);
+  padding: 1%;
+  border-radius: 10px;
+}
 </style>
