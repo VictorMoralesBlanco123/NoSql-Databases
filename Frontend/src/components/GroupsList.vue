@@ -132,7 +132,7 @@
                     class="form-check-input"
                     type="checkbox"
                     value="Monday"
-                    id="monday"
+                    id="Monday"
                   />
 
                   <label class="form-check-label" for="monday"> Monday </label>
@@ -144,7 +144,7 @@
                     class="form-check-input"
                     type="checkbox"
                     value="Tuesday"
-                    id="tuesday"
+                    id="Tuesday"
                   />
 
                   <label class="form-check-label" for="tuesday">
@@ -158,7 +158,7 @@
                     class="form-check-input"
                     type="checkbox"
                     value="Wednesday"
-                    id="wednesday"
+                    id="Wednesday"
                   />
 
                   <label class="form-check-label" for="wednesday">
@@ -172,7 +172,7 @@
                     class="form-check-input"
                     type="checkbox"
                     value="Thursday"
-                    id="thursday"
+                    id="Thursday"
                   />
 
                   <label class="form-check-label" for="thursday">
@@ -186,7 +186,7 @@
                     class="form-check-input"
                     type="checkbox"
                     value="Friday"
-                    id="friday"
+                    id="Friday"
                   />
 
                   <label class="form-check-label" for="friday"> Friday </label>
@@ -198,7 +198,7 @@
                     class="form-check-input"
                     type="checkbox"
                     value="Saturday"
-                    id="saturday"
+                    id="Saturday"
                   />
 
                   <label class="form-check-label" for="saturday">
@@ -212,7 +212,7 @@
                     class="form-check-input"
                     type="checkbox"
                     value="Sunday"
-                    id="sunday"
+                    id="Sunday"
                   />
 
                   <label class="form-check-label" for="sunday"> Sunday </label>
@@ -258,6 +258,10 @@ function setUpEdit(group) {
   start_time.value = group.start_time;
   end_time.value = group.end_time;
   instructor.value = group.instructor;
+  schedule.value = group.schedule;
+  for (let i = 0; i < schedule.value.length; i++) {
+    document.getElementById(`${schedule.value[i]}`).checked = true
+  }
 }
 
 async function remove(id) {
