@@ -21,7 +21,10 @@
           <option
             v-for="(instructor, i) in instructors"
             :key="i"
-            :value="[instructor.first_name + ' ' + instructor.last_name, instructor._id]"
+            :value="[
+              instructor.first_name + ' ' + instructor.last_name,
+              instructor._id,
+            ]"
           >
             {{ instructor.first_name + " " + instructor.last_name }}
           </option>
@@ -190,6 +193,7 @@ function add() {
       start_time: start_time.value,
       end_time: end_time.value,
       schedule: schedule.value,
+      members: [],
     }),
     headers: {
       "content-type": "application/json",
