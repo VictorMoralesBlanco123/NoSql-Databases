@@ -271,19 +271,21 @@
                 type="text"
                 class="form-control"
                 id="JoinClient"
-                placeholder="Client"
+                placeholder="Add Client"
                 required
               />
               <br />
               <table class="table">
                 <thead class="table-dark">
-                  <th>Members</th>
-                  <th>Delete</th>
+                  <tr>
+                    <th>Members</th>
+                    <th>Delete</th>
+                  </tr>
                 </thead>
                 <tbody>
                   <tr v-for="(member, i) in members" :key="i">
                     <td>{{ member }}</td>
-                    <td></td>
+                    <td><button class="btn btn-danger">Delete</button></td>
                   </tr>
                 </tbody>
               </table>
@@ -331,13 +333,36 @@ function setUpJoin(group) {
   members.value = group.members;
 }
 
+function triggerAlert(){
+  swal("Success!", "Member Added!", "success");
+}
+
 function join() {
+  let bool = false;
+
+  for (let i = 0; i < members.value.length; i++) {
+    if (
+      members.value[i] ==
+      document.getElementById("JoinClient").value.trim().replace(/\s+/g, " ")
+    ) {
+      bool = true;
+      break;
+    }
+  }
+
+  if (bool == true) {
+    triggerAlert();
+    return;
+  }
+
   for (let i = 0; i < clients.value.length; i++) {
     if (
       clients.value[i].first_name + " " + clients.value[i].last_name ==
       document.getElementById("JoinClient").value
     ) {
-      members.value.push(document.getElementById("JoinClient").value);
+      members.value.push(
+        document.getElementById("JoinClient").value.trim().replace(/\s+/g, " ")
+      );
       $.ajax({
         type: "PUT",
         url: `http://localhost:4000/groups/update/${groupID.value}`,
