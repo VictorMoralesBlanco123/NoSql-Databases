@@ -21,10 +21,11 @@
 
             <button
               class="btn btn-primary m-2"
+              type="button"
               data-toggle="modal"
-              @click="setUpJoin(group._id, group.name)"
+              @click="setUpJoin(group)"
               data-bs-toggle="modal"
-              data-bs-target="#editGroup"
+              data-bs-target="#JoinGroup"
             >
               Join Group
             </button>
@@ -44,195 +45,263 @@
         </div>
       </div>
     </div>
-    <div
-      class="modal fade"
-      id="editGroup"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="row fixMargins">
-              <div class="col">
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="name"
-                  placeholder="Group Name"
-                  required
-                />
-              </div>
+
+    <form @submit.prevent="save">
+      <div
+        class="modal fade"
+        id="editGroup"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
+            <div class="modal-body">
+              <div class="row fixMargins">
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="name"
+                    placeholder="Group Name"
+                    required
+                  />
+                </div>
+              </div>
 
-            <br />
+              <br />
 
-            <div class="row fixMargins">
-              <div class="col">
-                <select
-                  class="form-select"
-                  @change="select"
-                  id="instructorSelect"
-                  required
-                >
-                  <option selected value="">Select Instructor</option>
-                  <option
-                    v-for="(instructor, i) in instructors"
-                    :key="i"
-                    :value="[
-                      instructor.first_name + ' ' + instructor.last_name,
-                      instructor._id,
-                    ]"
+              <div class="row fixMargins">
+                <div class="col">
+                  <select
+                    class="form-select"
+                    @change="select"
+                    id="instructorSelect"
+                    required
                   >
-                    {{ instructor.first_name + " " + instructor.last_name }}
-                  </option>
-                </select>
+                    <option selected value="">Select Instructor</option>
+                    <option
+                      v-for="(instructor, i) in instructors"
+                      :key="i"
+                      :value="[
+                        instructor.first_name + ' ' + instructor.last_name,
+                        instructor._id,
+                      ]"
+                    >
+                      {{ instructor.first_name + " " + instructor.last_name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <br />
+
+              <div class="row fixMargins">
+                <div class="col">
+                  <label>Start Time</label>
+                  <input
+                    type="time"
+                    v-model="start_time"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="col">
+                  <label>End Time</label>
+                  <input
+                    type="time"
+                    v-model="end_time"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+
+              <br />
+
+              <div class="row" id="daySelector">
+                <div class="col">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="Monday"
+                      id="Monday"
+                    />
+
+                    <label class="form-check-label" for="monday">
+                      Monday
+                    </label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="Tuesday"
+                      id="Tuesday"
+                    />
+
+                    <label class="form-check-label" for="tuesday">
+                      Tuesday
+                    </label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="Wednesday"
+                      id="Wednesday"
+                    />
+
+                    <label class="form-check-label" for="wednesday">
+                      Wednesday
+                    </label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="Thursday"
+                      id="Thursday"
+                    />
+
+                    <label class="form-check-label" for="thursday">
+                      Thursday
+                    </label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="Friday"
+                      id="Friday"
+                    />
+
+                    <label class="form-check-label" for="friday">
+                      Friday
+                    </label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="Saturday"
+                      id="Saturday"
+                    />
+
+                    <label class="form-check-label" for="saturday">
+                      Saturday
+                    </label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="Sunday"
+                      id="Sunday"
+                    />
+
+                    <label class="form-check-label" for="sunday">
+                      Sunday
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <br />
-
-            <div class="row fixMargins">
-              <div class="col">
-                <label>Start Time</label>
-                <input
-                  type="time"
-                  v-model="start_time"
-                  class="form-control"
-                  required
-                />
-              </div>
-              <div class="col">
-                <label>End Time</label>
-                <input
-                  type="time"
-                  v-model="end_time"
-                  class="form-control"
-                  required
-                />
-              </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                id="close"
+              >
+                Close
+              </button>
+              <button class="btn btn-primary">Save changes</button>
             </div>
-
-            <br />
-
-            <div class="row" id="daySelector">
-              <div class="col">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="Monday"
-                    id="Monday"
-                  />
-
-                  <label class="form-check-label" for="monday"> Monday </label>
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="Tuesday"
-                    id="Tuesday"
-                  />
-
-                  <label class="form-check-label" for="tuesday">
-                    Tuesday
-                  </label>
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="Wednesday"
-                    id="Wednesday"
-                  />
-
-                  <label class="form-check-label" for="wednesday">
-                    Wednesday
-                  </label>
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="Thursday"
-                    id="Thursday"
-                  />
-
-                  <label class="form-check-label" for="thursday">
-                    Thursday
-                  </label>
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="Friday"
-                    id="Friday"
-                  />
-
-                  <label class="form-check-label" for="friday"> Friday </label>
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="Saturday"
-                    id="Saturday"
-                  />
-
-                  <label class="form-check-label" for="saturday">
-                    Saturday
-                  </label>
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="Sunday"
-                    id="Sunday"
-                  />
-
-                  <label class="form-check-label" for="sunday"> Sunday </label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>
-    </div>
+    </form>
+
+    <form @submit.prevent="join">
+      <div
+        class="modal fade"
+        id="JoinGroup"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Join Group</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <input
+                type="text"
+                class="form-control"
+                id="JoinClient"
+                placeholder="Client"
+                required
+              />
+              <br />
+              <table class="table">
+                <thead class="table-dark">
+                  <th>Members</th>
+                  <th>Delete</th>
+                </thead>
+                <tbody>
+                  <tr v-for="(member, i) in members" :key="i">
+                    <td>{{ member }}</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button class="btn btn-primary">Join</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -247,12 +316,103 @@ let start_time = ref(null);
 let end_time = ref(null);
 let instructor = ref(null);
 let schedule = ref([]);
+let id = ref(null);
+
+let clients = ref(null);
+let groupID = ref(null);
+let members = ref([]);
 
 onMounted(() => {
   fillArray();
 });
 
+function setUpJoin(group) {
+  groupID.value = group._id;
+  members.value = group.members;
+}
+
+function join() {
+  for (let i = 0; i < clients.value.length; i++) {
+    if (
+      clients.value[i].first_name + " " + clients.value[i].last_name ==
+      document.getElementById("JoinClient").value
+    ) {
+      members.value.push(document.getElementById("JoinClient").value);
+      $.ajax({
+        type: "PUT",
+        url: `http://localhost:4000/groups/update/${groupID.value}`,
+        data: JSON.stringify({
+          members: members.value,
+        }),
+        headers: {
+          "content-type": "application/json",
+        },
+        success: function (data, status) {
+          if (status === "success") {
+            swal("Success!", "Member Added!", "success");
+            fillArray();
+          }
+        },
+      });
+      break;
+    }
+  }
+}
+
+function save() {
+  let days = [];
+
+  if (document.getElementById("Monday").checked == true) {
+    days.push("Monday");
+  }
+  if (document.getElementById("Tuesday").checked == true) {
+    days.push("Tuesday");
+  }
+  if (document.getElementById("Wednesday").checked == true) {
+    days.push("Wednesday");
+  }
+  if (document.getElementById("Thursday").checked == true) {
+    days.push("Thursday");
+  }
+  if (document.getElementById("Friday").checked == true) {
+    days.push("Friday");
+  }
+  if (document.getElementById("Saturday").checked == true) {
+    days.push("Saturday");
+  }
+  if (document.getElementById("Sunday").checked == true) {
+    days.push("Sunday");
+  }
+
+  if (days.length == 0) {
+    return;
+  }
+
+  $.ajax({
+    type: "PUT",
+    url: `http://localhost:4000/groups/update/${id.value}`,
+    data: JSON.stringify({
+      name: name.value,
+      instructor: instructor.value,
+      start_time: start_time.value,
+      end_time: end_time.value,
+      schedule: days,
+    }),
+    headers: {
+      "content-type": "application/json",
+    },
+    success: function (data, status) {
+      if (status === "success") {
+        swal("Success!", "Group Updated!", "success");
+        fillArray();
+      }
+    },
+  });
+  document.getElementById("close").click();
+}
+
 function setUpEdit(group) {
+  id.value = group._id;
   name.value = group.name;
   start_time.value = group.start_time;
   end_time.value = group.end_time;
@@ -289,6 +449,8 @@ async function fillArray() {
   groups.value = await res.json();
   let res2 = await fetch("http://localhost:4000/instructors/list");
   instructors.value = await res2.json();
+  let res3 = await fetch("http://localhost:4000/clients/list");
+  clients.value = await res3.json();
 }
 </script>
 
