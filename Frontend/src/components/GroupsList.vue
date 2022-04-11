@@ -82,7 +82,7 @@
                 <select
                   class="form-select"
                   @change="select"
-                  id="instructor"
+                  id="instructorSelect"
                   required
                 >
                   <option selected value="">Select Instructor</option>
@@ -238,7 +238,6 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import Edit from "@/components/EditGroupModal.vue";
 
 let groups = ref(null);
 let instructors = ref(null);
@@ -258,9 +257,10 @@ function setUpEdit(group) {
   start_time.value = group.start_time;
   end_time.value = group.end_time;
   instructor.value = group.instructor;
+  document.getElementById("instructorSelect").value = group.instructor;
   schedule.value = group.schedule;
   for (let i = 0; i < schedule.value.length; i++) {
-    document.getElementById(`${schedule.value[i]}`).checked = true
+    document.getElementById(`${schedule.value[i]}`).checked = true;
   }
 }
 
