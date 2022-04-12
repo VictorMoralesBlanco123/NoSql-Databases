@@ -36,6 +36,14 @@
 
     <div class="row fixMargins">
       <div class="col">
+        <input type="number" class="form-control" placeholder="Monthly Rate" v-model="rate" step="0.01" min="0" required/>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="row fixMargins">
+      <div class="col">
         <label>Start Time</label>
         <input type="time" v-model="start_time" class="form-control" required />
       </div>
@@ -153,6 +161,7 @@ let start_time = ref(null);
 let end_time = ref(null);
 let instructor = ref(null);
 let schedule = ref([]);
+let rate = ref(null)
 
 onMounted(() => {
   fillArray();
@@ -194,6 +203,7 @@ function add() {
       end_time: end_time.value,
       schedule: schedule.value,
       members: [],
+      rate: rate.value
     }),
     headers: {
       "content-type": "application/json",

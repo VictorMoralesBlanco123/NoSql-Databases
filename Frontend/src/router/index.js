@@ -6,6 +6,7 @@ import AddInstructor from '@/views/AddInstructorView.vue'
 import ListInstructor from '@/views/ListInstructorsView.vue'
 import AddGroup from '@/views/AddGroupView.vue'
 import ListGroups from '@/views/ListGroupView.vue'
+import Enlist from '@/views/JoinGroupView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/listgroups',
       name: 'List Groups',
       component: ListGroups
+    },
+    {
+      path: '/enlist',
+      name: 'Join Groups',
+      component: Enlist
     }
   ]
 })

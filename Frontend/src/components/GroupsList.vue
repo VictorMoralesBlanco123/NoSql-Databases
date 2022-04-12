@@ -18,17 +18,17 @@
             <p class="card-text">
               Schedule: <br />{{ group.schedule.toString().replace(/,/g, " ") }}
             </p>
+            <p class="card-text">
+              Rate: ${{ group.rate }}/month
+            </p>
 
-            <button
+            <RouterLink
               class="btn btn-primary m-2"
-              type="button"
-              data-toggle="modal"
+              to="/enlist"
               @click="setUpJoin(group)"
-              data-bs-toggle="modal"
-              data-bs-target="#JoinGroup"
+              >Join the Group</RouterLink
             >
-              Join Group
-            </button>
+
             <button
               class="btn btn-success m-2"
               type="button"
@@ -244,70 +244,6 @@
         </div>
       </div>
     </form>
-
-    <form @submit.prevent="join">
-      <div
-        class="modal fade"
-        id="JoinGroup"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Join Group</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <input
-                type="text"
-                class="form-control"
-                id="JoinClient"
-                placeholder="Add Client"
-                required
-              />
-              <br />
-              <table class="table">
-                <thead class="table-dark">
-                  <tr>
-                    <th>Members</th>
-                    <th>Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(member, i) in members" :key="i">
-                    <td>{{ member }}</td>
-                    <td>
-                      <button class="btn btn-danger" @click="removeMember(i)">
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button class="btn btn-primary">Add Member</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
   </div>
 </template>
 
@@ -324,90 +260,13 @@ let instructor = ref(null);
 let schedule = ref([]);
 let id = ref(null);
 
-let clients = ref(null);
-let groupID = ref(null);
-let members = ref([]);
-
 onMounted(() => {
   fillArray();
+  
 });
 
-function removeMember(member) {
-  members.value.splice(member, 1);
-  $.ajax({
-    type: "PUT",
-    url: `http://localhost:4000/groups/update/${groupID.value}`,
-    data: JSON.stringify({
-      members: members.value,
-    }),
-    headers: {
-      "content-type": "application/json",
-    },
-    success: function (data, status) {
-      if (status === "success") {
-        swal("Success!", "Member Removed!", "success");
-        fillArray();
-      }
-    },
-  });
-}
-
 function setUpJoin(group) {
-  groupID.value = group._id;
-  members.value = group.members;
-}
-
-function triggerAlert(name) {
-  swal("Hold up!", `${name} is already a member of this group`, "info");
-}
-
-function join() {
-  let bool = false;
-
-  for (let i = 0; i < members.value.length; i++) {
-    if (
-      members.value[i] ==
-      document.getElementById("JoinClient").value.trim().replace(/\s+/g, " ")
-    ) {
-      bool = true;
-      break;
-    }
-  }
-
-  if (bool == true) {
-    triggerAlert(
-      document.getElementById("JoinClient").value.trim().replace(/\s+/g, " ")
-    );
-    return;
-  }
-
-  for (let i = 0; i < clients.value.length; i++) {
-    if (
-      clients.value[i].first_name + " " + clients.value[i].last_name ==
-      document.getElementById("JoinClient").value
-    ) {
-      members.value.push(
-        document.getElementById("JoinClient").value.trim().replace(/\s+/g, " ")
-      );
-      $.ajax({
-        type: "PUT",
-        url: `http://localhost:4000/groups/update/${groupID.value}`,
-        data: JSON.stringify({
-          members: members.value,
-        }),
-        headers: {
-          "content-type": "application/json",
-        },
-        success: function (data, status) {
-          if (status === "success") {
-            swal("Success!", "Member Added!", "success");
-            fillArray();
-          }
-        },
-      });
-      break;
-    }
-  }
+  localStorage.setItem("group", JSON.stringify(group));
 }
 
 function save() {
@@ -500,8 +359,6 @@ async function fillArray() {
   groups.value = await res.json();
   let res2 = await fetch("http://localhost:4000/instructors/list");
   instructors.value = await res2.json();
-  let res3 = await fetch("http://localhost:4000/clients/list");
-  clients.value = await res3.json();
 }
 </script>
 
