@@ -285,7 +285,11 @@
                 <tbody>
                   <tr v-for="(member, i) in members" :key="i">
                     <td>{{ member }}</td>
-                    <td><button class="btn btn-danger">Delete</button></td>
+                    <td>
+                      <button class="btn btn-danger" @click="removeMember(i)">
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -298,7 +302,7 @@
               >
                 Close
               </button>
-              <button class="btn btn-primary">Join</button>
+              <button class="btn btn-primary">Add Member</button>
             </div>
           </div>
         </div>
@@ -328,13 +332,33 @@ onMounted(() => {
   fillArray();
 });
 
+function removeMember(member) {
+  members.value.splice(member, 1);
+  $.ajax({
+    type: "PUT",
+    url: `http://localhost:4000/groups/update/${groupID.value}`,
+    data: JSON.stringify({
+      members: members.value,
+    }),
+    headers: {
+      "content-type": "application/json",
+    },
+    success: function (data, status) {
+      if (status === "success") {
+        swal("Success!", "Member Removed!", "success");
+        fillArray();
+      }
+    },
+  });
+}
+
 function setUpJoin(group) {
   groupID.value = group._id;
   members.value = group.members;
 }
 
-function triggerAlert(){
-  swal("Success!", "Member Added!", "success");
+function triggerAlert(name) {
+  swal("Hold up!", `${name} is already a member of this group`, "info");
 }
 
 function join() {
@@ -351,7 +375,9 @@ function join() {
   }
 
   if (bool == true) {
-    triggerAlert();
+    triggerAlert(
+      document.getElementById("JoinClient").value.trim().replace(/\s+/g, " ")
+    );
     return;
   }
 
