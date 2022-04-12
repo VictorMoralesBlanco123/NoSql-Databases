@@ -46,6 +46,9 @@
           </tr>
         </tbody>
       </table>
+      <div class="alert alert-warning" id="checkAlert">
+        There are no clients currently in the system. Please add some.
+      </div>
     </div>
 
     <div
@@ -160,9 +163,18 @@ onMounted(() => {
   fillArray();
 });
 
+async function checkArray() {
+  if (clients.value.length == 0) {
+    document.getElementById("checkAlert").hidden = false;
+  } else {
+    document.getElementById("checkAlert").hidden = true;
+  }
+}
+
 async function fillArray() {
   let res = await fetch("http://localhost:4000/clients/list");
   clients.value = await res.json();
+  checkArray()
 }
 
 async function searchClient() {

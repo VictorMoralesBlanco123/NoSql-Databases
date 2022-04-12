@@ -48,6 +48,10 @@
           </tr>
         </tbody>
       </table>
+      <div class="alert alert-warning" id="checkAlert">
+        There are no instructors currently in the system. Please add some. You
+        will be unable to create a group without an instructor.
+      </div>
     </div>
 
     <div
@@ -164,7 +168,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-let instructors = ref(null);
+let instructors = ref([]);
 let search = ref(null);
 let _id = ref(null);
 let phone = ref(null);
@@ -177,9 +181,18 @@ onMounted(() => {
   fillArray();
 });
 
+async function checkArray() {
+  if (instructors.value.length == 0) {
+    document.getElementById("checkAlert").hidden = false;
+  } else {
+    document.getElementById("checkAlert").hidden = true;
+  }
+}
+
 async function fillArray() {
   let res = await fetch("http://localhost:4000/instructors/list");
   instructors.value = await res.json();
+  checkArray()
 }
 
 async function searchInstructor() {
@@ -218,7 +231,7 @@ function save() {
     },
     success: function (data, status) {
       if (status === "success") {
-        swal("Success!", "Client Updated!", "success");
+        swal("Success!", "Instructor Updated!", "success");
         fillArray();
       }
     },
@@ -232,7 +245,7 @@ function remove(id) {
     url: `http://localhost:4000/instructors/delete/${id}`,
     success: function (data, status) {
       if (status === "success") {
-        swal("Success!", "Client Deleted!", "success");
+        swal("Success!", "Instructor Deleted!", "success");
         fillArray();
       }
     },

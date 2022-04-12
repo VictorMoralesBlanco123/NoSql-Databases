@@ -1,6 +1,13 @@
 <template>
   <form @submit.prevent="add">
     <div class="row fixMargins">
+      <div class="alert alert-warning" id="checkAlert">
+        There are no instructors currently in the system. Please add some. You
+        will be unable to create a group without an instructor.
+      </div>
+    </div>
+
+    <div class="row fixMargins">
       <div class="col">
         <input
           type="text"
@@ -36,7 +43,15 @@
 
     <div class="row fixMargins">
       <div class="col">
-        <input type="number" class="form-control" placeholder="Monthly Rate" v-model="rate" step="0.01" min="0" required/>
+        <input
+          type="number"
+          class="form-control"
+          placeholder="Monthly Rate"
+          v-model="rate"
+          step="0.01"
+          min="0"
+          required
+        />
       </div>
     </div>
 
@@ -154,18 +169,26 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-let instructors = ref(null);
+let instructors = ref([]);
 
 let name = ref(null);
 let start_time = ref(null);
 let end_time = ref(null);
 let instructor = ref(null);
 let schedule = ref([]);
-let rate = ref(null)
+let rate = ref(null);
 
 onMounted(() => {
   fillArray();
 });
+
+async function checkArray() {
+  if (instructors.value.length == 0) {
+    document.getElementById("checkAlert").hidden = false;
+  } else {
+    document.getElementById("checkAlert").hidden = true;
+  }
+}
 
 function add() {
   if (document.getElementById("monday").checked == true) {
@@ -203,7 +226,7 @@ function add() {
       end_time: end_time.value,
       schedule: schedule.value,
       members: [],
-      rate: rate.value
+      rate: rate.value,
     }),
     headers: {
       "content-type": "application/json",
@@ -224,6 +247,7 @@ function select() {
 async function fillArray() {
   let res = await fetch("http://localhost:4000/instructors/list");
   instructors.value = await res.json();
+  checkArray()
 }
 </script>
 

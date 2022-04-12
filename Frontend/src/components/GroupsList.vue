@@ -44,6 +44,9 @@
           </div>
         </div>
       </div>
+       <div class="alert alert-warning" id="checkAlert">
+        There are no clients currently in the system. Please add some.
+      </div>
     </div>
 
     <form @submit.prevent="save">
@@ -262,8 +265,15 @@ let id = ref(null);
 
 onMounted(() => {
   fillArray();
-  
 });
+
+async function checkArray() {
+  if (groups.value.length == 0) {
+    document.getElementById("checkAlert").hidden = false;
+  } else {
+    document.getElementById("checkAlert").hidden = true;
+  }
+}
 
 function setUpJoin(group) {
   localStorage.setItem("group", JSON.stringify(group));
@@ -359,6 +369,7 @@ async function fillArray() {
   groups.value = await res.json();
   let res2 = await fetch("http://localhost:4000/instructors/list");
   instructors.value = await res2.json();
+  checkArray()
 }
 </script>
 

@@ -38,9 +38,19 @@
           </tbody>
         </table>
 
+        <div class="alert alert-warning" id="checkAlert">
+          There are no members currently in this goup.
+        </div>
+        <br />
         <div class="row">
           <div class="col center">
-            <button type="button" class="btn btn-secondary m-2">Return</button>
+            <RouterLink
+              type="button"
+              class="btn btn-secondary m-2"
+              to="/listgroups"
+              @click="removeLocal"
+              >Return</RouterLink
+            >
 
             <button class="btn btn-primary">Add Member</button>
           </div>
@@ -52,16 +62,31 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-let clients = ref(null);
+let group = ref(null);
+
+let clients = ref([]);
 let groupID = ref(null);
 let members = ref([]);
 
 onMounted(() => {
-  let group = JSON.parse(localStorage.getItem("group"));
-  groupID.value = group._id;
-  members.value = group.members;
+  group.value = JSON.parse(localStorage.getItem("group"));
+  groupID.value = group.value._id;
+  members.value = group.value.members;
   fillArray();
+  checkArray();
 });
+
+function removeLocal() {
+  localStorage.removeItem("group");
+}
+
+async function checkArray() {
+  if (members.value.length == 0) {
+    document.getElementById("checkAlert").hidden = false;
+  } else {
+    document.getElementById("checkAlert").hidden = true;
+  }
+}
 
 async function fillArray() {
   let res3 = await fetch("http://localhost:4000/clients/list");
@@ -73,7 +98,11 @@ function triggerAlert(name) {
 }
 
 function triggerAlert2(name) {
-  swal("Error!", `${name} is not registered as as a client in our system. Please verify spelling and capitalize the client's name.`, "error");
+  swal(
+    "Error!",
+    `${name} is not registered as as a client in our system. Please verify spelling and capitalize the client's name.`,
+    "error"
+  );
 }
 
 function join() {
@@ -114,10 +143,15 @@ function join() {
         success: function (data, status) {
           if (status === "success") {
             swal("Success!", "Member Added!", "success");
-            fillArray();
           }
         },
       });
+
+      fillArray();
+      checkArray();
+      group.value.members = members.value;
+      localStorage.setItem("group", JSON.stringify(group.value));
+
       break;
     }
 
@@ -144,10 +178,15 @@ function removeMember(member) {
     success: function (data, status) {
       if (status === "success") {
         swal("Success!", "Member Removed!", "success");
-        fillArray();
       }
     },
   });
+
+  fillArray();
+  checkArray();
+
+  group.value.members = members.value;
+  localStorage.setItem("group", JSON.stringify(group.value));
 }
 </script>
 
